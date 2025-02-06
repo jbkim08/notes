@@ -18,11 +18,10 @@ public class SecurityConfig {
         http.authorizeHttpRequests(requests
                 -> requests
                     .anyRequest().authenticated());
-        http.csrf(AbstractHttpConfigurer::disable); //CSRF 중지
+        http.csrf(AbstractHttpConfigurer::disable); //CSRF 중지 (post 는 csrf 토큰필요)
         //http.formLogin(withDefaults());
         http.httpBasic(withDefaults());
-
-
+        
         return http.build();
     }
 }
