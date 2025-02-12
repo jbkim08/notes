@@ -2,6 +2,7 @@ package com.secure.notes.services.impl;
 
 import com.secure.notes.models.Note;
 import com.secure.notes.repositories.NoteRepository;
+import com.secure.notes.services.AuditLogService;
 import com.secure.notes.services.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,13 +13,17 @@ import java.util.List;
 public class NoteServiceImpl implements NoteService {
     @Autowired
     private NoteRepository noteRepository;
+    @Autowired
+    private AuditLogService auditLogService;
 
+    //새 노트 생성
     @Override
     public Note createNoteForUser(String username, String content) {
         Note note = new Note();
         note.setContent(content);
         note.setOwnerUsername(username);
         Note savedNote = noteRepository.save(note);
+        auditLogService.logNoteCreation(username, note); //로그 생성
         return savedNote;
     }
 
@@ -29,12 +34,16 @@ public class NoteServiceImpl implements NoteService {
         note.setContent(content); //내용 업데이트
         // note 를 DB 에서 가져왔음 id 있음 save 시 업데이트 됨
         Note updatedNote = noteRepository.save(note);
+        auditLogService.logNoteUpdate(username, note); //업데이트 로그
         return updatedNote;
     }
 
     @Override
     public void deleteNoteForUser(Long noteId, String username) {
-        noteRepository.deleteById(noteId);
+        Note note = noteRepository.findById(noteId)
+                .orElseThrow(()-> new RuntimeException("Note not found"));
+        noteRepository.delete(note);
+        auditLogService.logNoteDeletion(username, noteId); //삭제 로그
     }
 
     @Override
