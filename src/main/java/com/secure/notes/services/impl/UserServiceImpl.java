@@ -136,6 +136,26 @@ public class UserServiceImpl implements UserService {
         emailService.sendPasswordResetEmail(user.getEmail(), resetUrl);
     }
 
+    @Override
+    public void resetPassword(String token, String newPassword) {
+        //서버에서 발행한 토큰이 맞는지 DB 에서 토큰으로 검색해서 가져옴
+        PasswordResetToken resetToken = passwordResetTokenRepository.findByToken(token)
+                .orElseThrow(() -> new RuntimeException("Invalid password reset token"));
+        //토큰이 사용되었는지 확인
+        if (resetToken.isUsed())
+            throw new RuntimeException("패스워드 리셋토큰이 이미 사용되었음.");
+        //기간이 만료됨
+        if (resetToken.getExpiryDate().isBefore(Instant.now()))
+            throw new RuntimeException("토큰의 기간이 만료되었음.");
+
+        User user = resetToken.getUser();
+        user.setPassword(passwordEncoder.encode(newPassword)); //새 비밀번호를 암호화 저장
+        userRepository.save(user); //유저 업데이트
+
+        resetToken.setUsed(true); //토큰 사용했음
+        passwordResetTokenRepository.save(resetToken); //토큰 업데이트(사용완료됨)
+    }
+
 
     private UserDTO convertToDto(User user) {
         return new UserDTO(

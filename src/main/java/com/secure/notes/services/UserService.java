@@ -29,4 +29,6 @@ public interface UserService {
     void updatePassword(Long userId, String password);
     //패스워드 리셋토큰 생성
     void generatePasswordResetToken(String email);
+    //새 패스워드 업데이트
+    void resetPassword(String token, String newPassword);
 }
