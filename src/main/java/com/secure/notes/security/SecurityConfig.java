@@ -52,7 +52,11 @@ public class SecurityConfig {
                 -> requests
                     .requestMatchers("/api/admin/**").hasRole("ADMIN")
                     .requestMatchers("/api/auth/public/**").permitAll()
-                    .anyRequest().authenticated());
+                    .requestMatchers("/oauth2/**").permitAll()
+                    .anyRequest().authenticated())
+                    .oauth2Login(oauth -> {
+
+                    });
         http.exceptionHandling(exception
                 -> exception.authenticationEntryPoint(unauthorizedHandler));
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
