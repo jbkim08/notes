@@ -156,6 +156,19 @@ public class UserServiceImpl implements UserService {
         passwordResetTokenRepository.save(resetToken); //토큰 업데이트(사용완료됨)
     }
 
+    @Override
+    public Optional<User> findByEmail(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+        return user;
+    }
+
+    @Override
+    public User registerUser(User newUser) {
+        if(newUser.getPassword() != null){ //혹시 새유저의 패스워드가 있으면 암호화해서 저장
+            newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+        }
+        return userRepository.save(newUser);
+    }
 
     private UserDTO convertToDto(User user) {
         return new UserDTO(
