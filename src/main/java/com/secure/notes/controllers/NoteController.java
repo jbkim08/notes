@@ -20,8 +20,7 @@ public class NoteController {
                            @AuthenticationPrincipal UserDetails userDetails) {
         String username = userDetails.getUsername();
         System.out.println("username: " + username);
-        //return noteService.createNoteForUser(username, content);
-        return null;
+        return noteService.createNoteForUser(username, content);
     }
 
     @GetMapping
