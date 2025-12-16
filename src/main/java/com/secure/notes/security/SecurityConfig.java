@@ -18,7 +18,10 @@ public class SecurityConfig {
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         //모든 요청은 인증된 요청만 가능
         http.authorizeHttpRequests(
-                (requests) -> requests.anyRequest().authenticated());
+                (requests) -> requests
+                        .requestMatchers("/contact").permitAll()
+                        .requestMatchers("/public/**").permitAll()
+                        .anyRequest().authenticated());
         http.sessionManagement(session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.httpBasic(withDefaults());
