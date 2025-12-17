@@ -28,7 +28,6 @@ public class AuthController {
 
     @Autowired
     JwtUtils jwtUtils;
-
     @Autowired
     AuthenticationManager authenticationManager;
 
@@ -41,7 +40,7 @@ public class AuthController {
                     .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         } catch (AuthenticationException exception) {
             Map<String, Object> map = new HashMap<>();
-            map.put("message", "Bad credentials");
+            map.put("message", "유저네임 또는 비번이 틀립니다.");
             map.put("status", false);
             return new ResponseEntity<Object>(map, HttpStatus.NOT_FOUND);
         }
