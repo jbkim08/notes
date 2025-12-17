@@ -38,8 +38,7 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable); //csrf중지(post요청시 csrf토큰)
         http.authorizeHttpRequests(
                 (requests) -> requests
-                        .requestMatchers("/contact").permitAll()
-                        .requestMatchers("/public/**").permitAll()
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated());
         http.sessionManagement(session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
