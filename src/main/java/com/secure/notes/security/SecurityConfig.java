@@ -45,7 +45,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated());
         http.sessionManagement(session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        http.addFilterBefore(new CustomLoggingFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new AuthTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         http.httpBasic(withDefaults());
 
         return http.build();
