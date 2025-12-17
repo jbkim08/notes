@@ -8,12 +8,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
 public class NotesApplication {
-
+    //패스워드 객체 등록
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
+    
     public static void main(String[] args) {
         SpringApplication.run(NotesApplication.class, args);
     }
