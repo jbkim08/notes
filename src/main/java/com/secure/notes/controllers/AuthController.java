@@ -28,6 +28,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -152,5 +153,11 @@ public class AuthController {
         );
 
         return ResponseEntity.ok(response);
+    }
+
+    //유저네임 리턴
+    @GetMapping("/username")
+    public String getUsername(Principal principal){
+        return principal.getName() != null ? principal.getName() : ""; //이름이 널이 아니면 가져오고 널이면 ""공백
     }
 }
