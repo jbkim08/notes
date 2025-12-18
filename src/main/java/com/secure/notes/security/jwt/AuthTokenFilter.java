@@ -1,6 +1,5 @@
-package com.secure.notes.security;
+package com.secure.notes.security.jwt;
 
-import com.secure.notes.security.jwt.JwtUtils;
 import com.secure.notes.security.services.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

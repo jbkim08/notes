@@ -1,4 +1,4 @@
-package com.secure.notes.security;
+package com.secure.notes.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
