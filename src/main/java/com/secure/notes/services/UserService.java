@@ -12,5 +12,6 @@ public interface UserService {
     List<User> getAllUsers();
     //id로 특정 유저를 가져오기
     UserDTO getUserById(Long id);
-
+    //유저네임으로 유저찾기
+    User findByUername(String username);
 }

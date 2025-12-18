@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -40,6 +41,13 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id).orElseThrow();
         return convertToDto(user);
     }
+
+    @Override
+    public User findByUername(String username) {
+        Optional<User> user = userRepository.findByUserName(username);
+        return user.orElseThrow(()->new RuntimeException("유저를 찾을 수 없습니다." + username));
+    }
+
     //유저DTO로 변환하는 메소드
     private UserDTO convertToDto(User user) {
         return new UserDTO(
