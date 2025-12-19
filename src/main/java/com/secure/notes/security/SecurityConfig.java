@@ -21,6 +21,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfigurationSource;
+
 
 import java.time.LocalDate;
 
@@ -37,10 +39,12 @@ public class SecurityConfig {
     private final PasswordEncoder passwordEncoder;
     private final AuthEntryPointJwt unauthorizedHandler;        //인증 에러시 처리 객체
     private final AuthTokenFilter authenticationJwtTokenFilter; //토큰 인증 필터
+    private final CorsConfigurationSource corsConfigurationSource;
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        //모든 요청은 인증된 요청만 가능
+        //모든요청시 CORS 에러 방지
+        http.cors(cors -> cors.configurationSource(corsConfigurationSource));
         http.csrf(AbstractHttpConfigurer::disable); //csrf중지(post요청시 csrf토큰)
         http.authorizeHttpRequests(
                 (requests) -> requests
