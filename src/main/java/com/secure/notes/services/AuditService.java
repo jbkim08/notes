@@ -11,4 +11,6 @@ public interface AuditService {
     void logNoteDeletion(String username, Long noteId);
 
     List<AuditLog> getAllAuditLogs();
+
+    List<AuditLog> getAuditLogsForNoteId(Long id);
 }

@@ -52,4 +52,9 @@ public class AuditLogServiceImpl implements AuditService {
         return auditLogRepository.findAll();
     }
 
+    @Override
+    public List<AuditLog> getAuditLogsForNoteId(Long id) {
+        return auditLogRepository.findByNoteId(id);
+    }
+
 }
