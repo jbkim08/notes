@@ -158,4 +158,21 @@ public class AuthController {
     public String getUsername(Principal principal){
         return principal.getName() != null ? principal.getName() : ""; //이름이 널이 아니면 가져오고 널이면 ""공백
     }
+
+    /**
+     * 비번 잊어버렸을때 요청
+     * @param email
+     * @return
+     */
+    @PostMapping("/public/forgot-password")
+    public ResponseEntity<?> forgotPassword(@RequestParam String email){
+        try {
+            userService.generatePasswordResetToken(email); //유저의 이메일 있는지 확인
+            return ResponseEntity.ok(new MessageResponse("패스워드 리셋 이메일 발송됨!"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new MessageResponse("패스워드 리셋 중 에러발생!"));
+        }
+    }
 }

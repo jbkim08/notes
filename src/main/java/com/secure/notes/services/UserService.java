@@ -7,6 +7,8 @@ import com.secure.notes.models.User;
 import java.util.List;
 
 public interface UserService {
+    //패스워드리셋 토큰 생성
+    void generatePasswordResetToken(String email);
     //유저의 권한을 수정
     void updateUserRole(Long userId, String roleName);
     //모든 유저 가져오기
